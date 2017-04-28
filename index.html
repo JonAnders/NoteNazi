@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>NoteNazi</title>
+
+    <!-- Bootstrap -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      body {
+        padding-top: 50px;
+      }
+      .intro {
+        padding-top: 20px;
+        margin-bottom: 0px;
+        text-align: center;
+        font-size: 20px;
+      }
+      .note {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">NoteNazi</a>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <p class="intro">Press the keys of your piano to see where the note is</p>
+      <div class="note">
+        <img id="noteimg" src="img/none.png" width="459" height="450">
+      </div>
+    </div>
+
+    
+    <script src="js/MidiController.js"></script>
+    <script>
+      MidiController(onNoteOn, onAllNotesOff).init();
+
+      function onNoteOn(note) {
+        var noteImg = document.getElementById("noteimg");
+
+        if (note == 60)
+          noteImg.src = "img/C.png";
+        if (note == 62)
+          noteImg.src = "img/D.png";
+        if (note == 64)
+          noteImg.src = "img/E.png";
+        if (note == 65)
+          noteImg.src = "img/F.png";
+        if (note == 67)
+          noteImg.src = "img/G.png";
+        if (note == 69)
+          noteImg.src = "img/A.png";
+        if (note == 71)
+          noteImg.src = "img/B.png";
+        if (note == 72)
+          noteImg.src = "img/Chigh.png";
+      }
+
+      function onAllNotesOff() {
+        var noteImg = document.getElementById("noteimg");
+        noteImg.src = "img/none.png";
+      }
+    </script>
+  </body>
+</html>
