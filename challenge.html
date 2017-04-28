@@ -30,6 +30,24 @@
       .note {
         text-align: center;
       }
+      #correct {
+        position: absolute;
+        top: -50px;
+        width: 100%;
+        color: green;
+        text-align: center;
+        font-size: 500px;
+        display: none;
+      }
+      #wrong {
+        position: absolute;
+        top: -50px;
+        width: 100%;
+        color: red;
+        text-align: center;
+        font-size: 500px;
+        display: none;
+      }
     </style>
   </head>
   <body>
@@ -39,48 +57,62 @@
           <a class="navbar-brand" href="index.html">NoteNazi</a>
         </div>
         <ul class="nav navbar-nav">
-          <li class="active"><a href="index.html">Show notes</a></li>
-          <li><a href="challenge.html">Challenge</a></li>
+          <li><a href="index.html">Show notes</a></li>
+          <li class="active"><a href="challenge.html">Challenge</a></li>
         </ul>
       </div>
     </div>
 
     <div class="container">
-      <p class="intro">Press the keys of your piano to see where the note is</p>
+      <p class="intro">Press the correct key on the piano that matches the note below</p>
       <div class="note">
         <img id="noteimg" src="img/none.png" width="459" height="450">
       </div>
     </div>
 
+    <div id="correct">
+      &check;
+    </div>
+    <div id="wrong">
+      &cross;
+    </div>
+
 
     <script src="js/MidiController.js"></script>
     <script>
+      var noteValues = [60, 62, 64, 65, 67, 69, 71, 72];
+      var noteNames = ["C", "D", "E", "F", "G", "A", "B", "Chigh"];
+      var currentNote;
+
+      var noteImg = document.getElementById("noteimg");
+      var correct = document.getElementById("correct");
+      var wrong = document.getElementById("wrong");
+
       MidiController(onNoteOn, onAllNotesOff).init();
+      showNewNote();
 
       function onNoteOn(note) {
-        var noteImg = document.getElementById("noteimg");
+        if (note == noteValues[currentNote])
+          correct.style.display = "block";
+        else
+          wrong.style.display = "block";
 
-        if (note == 60)
-          noteImg.src = "img/C.png";
-        if (note == 62)
-          noteImg.src = "img/D.png";
-        if (note == 64)
-          noteImg.src = "img/E.png";
-        if (note == 65)
-          noteImg.src = "img/F.png";
-        if (note == 67)
-          noteImg.src = "img/G.png";
-        if (note == 69)
-          noteImg.src = "img/A.png";
-        if (note == 71)
-          noteImg.src = "img/B.png";
-        if (note == 72)
-          noteImg.src = "img/Chigh.png";
+        setTimeout(function() {
+          correct.style.display = "none";
+          wrong.style.display = "none";
+          showNewNote();
+        }, 1000);
       }
 
       function onAllNotesOff() {
-        var noteImg = document.getElementById("noteimg");
-        noteImg.src = "img/none.png";
+      }
+
+      function showNewNote() {
+        var newNote = currentNote;
+        while (newNote == currentNote)
+          newNote = Math.floor(Math.random() * 8);
+        currentNote = newNote;
+        noteImg.src = "img/" + noteNames[currentNote] + ".png";
       }
     </script>
   </body>
